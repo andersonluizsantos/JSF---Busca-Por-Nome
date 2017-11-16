@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	>
+
+
+<h:head>
+	<title>Lista de Produtos</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</h:head>
+<h:body>
+
+	<p:menubar>
+		<p:menuitem value="Cadastrar" url="/produto/cadastro.xhtml" />
+		<p:menuitem value="Listar" url="/produto/listar.xhtml" />
+	</p:menubar>
+
+	<h3>Lista de Produtos</h3>
+
+	<f:event listener="#{produtoBean.pesquisar}" type="preRenderView" />
+	
+	<h:form>
+		<h:panelGrid columns="3">
+			<p:outputLabel value="Nome do Produto: " />
+			<p:inputText value="#{produtoBean.nome}" />
+			<p:commandButton value="Buscar" icon="ui-icon-search"
+				actionListener="#{produtoBean.pesquisar}" update="produtosDataTable" />
+		</h:panelGrid>
+
+		<p:dataTable value="#{produtoBean.listaProdutos}" var="produto"
+			id="produtosDataTable"
+			emptyMessage="Nenhuma informação a ser exibida" paginator="true"
+			rows="10" paginatorPosition="bottom">
+
+			<p:column headerText="ID">
+				<h:outputText value="#{produto.id}" />
+			</p:column>
+
+			<p:column headerText="Nome">
+				<h:outputText value="#{produto.nome}" />
+			</p:column>
+
+			<p:column headerText="Preço">
+				<h:outputText value="#{produto.preco}" />
+			</p:column>
+
+			<p:column>
+				<h:commandButton value="Excluir" action="#{produtoBean.excluir}">
+					<f:setPropertyActionListener value="#{produto}"
+						target="#{produtoBean.produto}" />
+				</h:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+</h:body>
+</html>
